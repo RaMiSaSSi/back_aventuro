@@ -1,0 +1,17 @@
+package com.example.demo.Repository;
+
+
+import com.example.demo.Model.Role;
+import com.example.demo.Model.UtilisateurInscrit;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface UtilisateurInscritRepository extends JpaRepository<UtilisateurInscrit, Long> {
+    Optional<UtilisateurInscrit> findByEmail(String email);
+    boolean existsByEmail(String email);
+    List<UtilisateurInscrit> findAllByRole(Role role);
+    Optional<UtilisateurInscrit> findByIdAndRole(Long id, Role role);
+    boolean existsByEmailAndIdNot(String email, Long id);
+}
