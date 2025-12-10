@@ -29,8 +29,7 @@
                                      http
                                          .csrf().disable()
                                          .authorizeHttpRequests(auth -> auth
-                                             .requestMatchers("/public/**", "/api/auth/**", "/actuator/**").permitAll()
-                                             .anyRequest().authenticated()
+                                             .anyRequest().permitAll()
                                          )
                                          .httpBasic();
 
