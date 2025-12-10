@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,5 +51,18 @@ public class UserActiviteController {
     @GetMapping("/search")
     public ResponseEntity<List<ActiviteDTO>> search(@RequestParam String keyword) {
         return ResponseEntity.ok(service.searchActivites(keyword));
+    }
+    @GetMapping("/filter")
+    public ResponseEntity<List<ActiviteDTO>> filter(
+            @RequestParam(required = false) String categorie,
+            @RequestParam(required = false) BigDecimal prixMin,
+            @RequestParam(required = false) BigDecimal prixMax,
+            @RequestParam(required = false) Integer dureeMin,
+            @RequestParam(required = false) Integer dureeMax,
+            @RequestParam(required = false) String lieu,
+            @RequestParam(required = false) Boolean promoActive
+    ) {
+        List<ActiviteDTO> filtered = service.filterActivites(categorie, prixMin, prixMax, dureeMin, dureeMax, lieu, promoActive);
+        return ResponseEntity.ok(filtered);
     }
 }

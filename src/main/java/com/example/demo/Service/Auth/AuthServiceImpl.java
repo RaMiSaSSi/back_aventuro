@@ -253,6 +253,7 @@ public class AuthServiceImpl implements AuthService {
         dto.setPays(utilisateurInscrit.getPays());
         dto.setDateNaissance(utilisateurInscrit.getDateNaissance());
         dto.setImagePath(utilisateurInscrit.getImagePath()); // include image path
+        dto.setAutoriseMailing(utilisateurInscrit.isAutoriseMailing());
         return dto;
     }
 
@@ -271,6 +272,7 @@ public class AuthServiceImpl implements AuthService {
         utilisateurInscrit.setPays(dto.getPays());
         utilisateurInscrit.setDateNaissance(dto.getDateNaissance());
         utilisateurInscrit.setImagePath(dto.getImagePath());
+        utilisateurInscrit.setAutoriseMailing(dto.isAutoriseMailing());
         return utilisateurInscrit;
     }
 
