@@ -27,4 +27,9 @@ public class UserVoitureController {
         if (dto == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<VoitureDTO>> search(@RequestParam(name = "q", required = false) String q) {
+        return ResponseEntity.ok(service.searchVoitures(q));
+    }
 }

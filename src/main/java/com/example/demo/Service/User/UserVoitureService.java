@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface UserVoitureService {
     List<VoitureDTO> getVoitures();
     VoitureDTO getVoitureById(UUID id);
+    List<VoitureDTO> searchVoitures(String q);
 }

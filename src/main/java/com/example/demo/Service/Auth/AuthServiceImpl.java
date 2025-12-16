@@ -177,15 +177,12 @@ public class AuthServiceImpl implements AuthService {
             // avoid revealing whether email exists; still return silently or log
             return;
         }
-        String token = generateToken(32);
-        PasswordResetToken prt = new PasswordResetToken();
-        prt.setEmail(email);
-        prt.setToken(token);
-        prt.setExpiryDate(LocalDateTime.now().plusMinutes(15));
-        passwordResetTokenRepository.save(prt);
+        String newPassword = generateRandomPassword(12); // Generate a new password
+        user.setMotDePasse(passwordEncoder.encode(newPassword));
+        utilisateurInscritRepository.save(user);
 
-        // Send email with token or full link (e.g., https://your-app/reset?token=...&email=...)
-        emailService.sendResetPasswordEmail(email, token);
+        // Send email with the new password
+        emailService.sendResetPasswordEmail(email, newPassword);
     }
     @Override
     @Transactional

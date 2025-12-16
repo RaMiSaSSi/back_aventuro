@@ -115,6 +115,7 @@ package com.example.demo.Service.Admin;
                         r.setNombreParticipantsAdults(dto.getNombreParticipantsAdults());
                         r.setNombreParticipantsChildren(dto.getNombreParticipantsChildren());
                         r.setMontantTotal(dto.getMontantTotal());
+                        r.setDevis(dto.getDevis());
                         r.setLieuRencontre(dto.getLieuRencontre());
 
                         if (dto.getStatut() != null) {
@@ -139,6 +140,7 @@ package com.example.demo.Service.Admin;
                         dto.setNombreParticipantsChildren(r.getNombreParticipantsChildren());
                         dto.setStatut(r.getStatut());
                         dto.setMontantTotal(r.getMontantTotal());
+                        dto.setDevis(r.getDevis());
                         dto.setDateCreation(r.getDateCreation());
                         dto.setLieuRencontre(r.getLieuRencontre());
                         dto.setClientNom(r.getClientNom());
