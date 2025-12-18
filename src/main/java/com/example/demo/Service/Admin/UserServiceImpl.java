@@ -60,7 +60,6 @@ public class UserServiceImpl implements UsersService {
             throw new IllegalArgumentException("Email already in use");
         }
         apply(dto, u);
-        u.setRole(Role.UTILISATEUR); // keep role
         UtilisateurInscrit saved = repo.save(u);
         return saved.getDTO();
     }
@@ -85,5 +84,6 @@ public class UserServiceImpl implements UsersService {
         if (dto.getDateNaissance() != null) u.setDateNaissance(dto.getDateNaissance());
         if (dto.getImagePath() != null) u.setImagePath(dto.getImagePath());
         if (dto.getDateInscription() != null) u.setDateInscription(dto.getDateInscription());
+        if(dto.getRole() != null) u.setRole(dto.getRole());
     }
 }
