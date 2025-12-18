@@ -5,6 +5,8 @@
         import com.example.demo.Model.Role;
         import com.example.demo.Model.UtilisateurInscrit;
         import com.example.demo.Repository.UtilisateurInscritRepository;
+        import org.springframework.data.domain.Page;
+        import org.springframework.data.domain.Pageable;
         import org.springframework.security.crypto.password.PasswordEncoder;
         import org.springframework.stereotype.Service;
         import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +28,9 @@
 
             @Override
             @Transactional(readOnly = true)
-            public List<UtilisateurInscritDTO> findAllAdmins() {
-                return repo.findAllByRole(Role.ADMINISTRATEUR)
-                        .stream().map(UtilisateurInscrit::getDTO).toList();
+            public Page<UtilisateurInscritDTO> findAllAdmins(Pageable pageable) {
+                return repo.findAllByRole(Role.ADMINISTRATEUR, pageable)
+                        .map(UtilisateurInscrit::getDTO);
             }
 
             @Override

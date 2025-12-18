@@ -10,6 +10,7 @@ package com.example.demo.Model;
         import java.time.LocalDate;
         import java.util.Date;
         import java.util.HashSet;
+        import java.util.List;
         import java.util.Set;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
@@ -40,6 +41,12 @@ package com.example.demo.Model;
             @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
             @JsonIgnore
             private Set<Reservation> reservations = new HashSet<>();
+    @OneToMany(mappedBy = "utilisateurInscrit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Avis> avis;
+     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<LocationVoiture> locations;
             public UtilisateurInscritDTO getDTO() {
                 UtilisateurInscritDTO dto = new UtilisateurInscritDTO();
                 dto.setId(id);

@@ -4,6 +4,8 @@ import com.example.demo.Dto.UtilisateurInscritDTO;
 import com.example.demo.Model.Role;
 import com.example.demo.Model.UtilisateurInscrit;
 import com.example.demo.Repository.UtilisateurInscritRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +24,9 @@ public class UserServiceImpl implements UsersService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UtilisateurInscritDTO> findAll() {
-        return repo.findAllByRole(Role.UTILISATEUR)
-                .stream().map(UtilisateurInscrit::getDTO).toList();
+    public Page<UtilisateurInscritDTO> findAll(Pageable pageable) {
+        return repo.findAllByRole(Role.UTILISATEUR, pageable)
+                .map(UtilisateurInscrit::getDTO);
     }
 
     @Override

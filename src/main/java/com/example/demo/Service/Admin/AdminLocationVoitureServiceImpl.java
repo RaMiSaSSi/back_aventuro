@@ -9,6 +9,10 @@
                     import com.example.demo.Repository.LocationVoitureRepository;
                     import com.example.demo.Repository.UtilisateurInscritRepository;
                     import com.example.demo.Repository.VoitureRepository;
+                    import com.example.demo.Service.Auth.EmailService;
+                    import jakarta.mail.MessagingException;
+                    import org.slf4j.Logger;
+                    import org.slf4j.LoggerFactory;
                     import org.springframework.beans.factory.annotation.Autowired;
                     import org.springframework.stereotype.Service;
                     import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +24,8 @@
                     @Service
                     @Transactional
                     public class AdminLocationVoitureServiceImpl implements AdminLocationVoitureService {
-
+                        @Autowired
+                        private EmailService emailService;
                         @Autowired
                         private LocationVoitureRepository locationRepository;
 
@@ -29,6 +34,7 @@
 
                         @Autowired
                         private UtilisateurInscritRepository utilisateurRepository;
+                        private static final Logger log = LoggerFactory.getLogger(AdminLocationVoitureServiceImpl.class);
 
                         @Override
                         public List<LocationVoitureDTO> getAllLocations() {
@@ -60,6 +66,11 @@
 
                             location.setEtatDemande(EtatDemande.EN_COURS);
                             LocationVoiture saved = locationRepository.save(location);
+                            try {
+                                emailService.sendValidationEmail(saved.getClientEmail(), saved.getClientNom() + " " + saved.getClientPrenom());
+                            } catch (MessagingException e) {
+                                log.error("Failed to send validation email for location {}", locationId, e);
+                            }
                             return toDto(saved);
                         }
 
@@ -74,6 +85,11 @@
 
                             location.setEtatDemande(EtatDemande.ANNULEE);
                             LocationVoiture saved = locationRepository.save(location);
+                            try {
+                                emailService.sendRefusalEmail(saved.getClientEmail(), saved.getClientNom() + " " + saved.getClientPrenom());
+                            } catch (MessagingException e) {
+                                log.error("Failed to send refusal email for location {}", locationId, e);
+                            }
                             return toDto(saved);
                         }
 

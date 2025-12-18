@@ -112,5 +112,70 @@ public class EmailService {
             log.error("Failed to send reset password email to {}", toEmail, e);
         }
     }
+    // java
+    public void sendValidationEmail(String toEmail, String clientName) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom("contact@aventuroo.vip");
+        helper.setTo(toEmail);
+        helper.setSubject("Validation de votre demande de location - Aventuroo");
+
+        String htmlContent = "<div style=\"font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#f4f5f7; padding:24px;\">"
+                + "<div style=\"max-width:680px; margin:0 auto; border-radius:12px; overflow:hidden; box-shadow:0 8px 30px rgba(15,23,42,0.08); background:#ffffff;\">"
+                + "  <header style=\"background:linear-gradient(90deg,#D4A017 0%,#C98900 100%); padding:24px; text-align:center;\">"
+                + "    <h1 style=\"margin:0; color:#fff; font-size:20px; font-weight:700; letter-spacing:0.2px;\">Aventuroo</h1>"
+                + "    <p style=\"margin:6px 0 0; color:rgba(255,255,255,0.95); font-size:13px;\">Votre prochaine aventure commence ici</p>"
+                + "  </header>"
+                + "  <main style=\"padding:28px 32px; color:#1f2937;\">"
+                + "    <div style=\"text-align:center; margin-bottom:18px;\">"
+                + "      <h2 style=\"margin:0; font-size:18px; font-weight:700;\">Demande de location validée</h2>"
+                + "      <p style=\"margin:8px 0 0; color:#4b5563; font-size:14px;\">Bonjour " + clientName + ", votre demande de location a été validée avec succès.</p>"
+                + "    </div>"
+                + "    <p style=\"color:#4b5563; font-size:14px; line-height:1.6;\">Vous pouvez maintenant procéder à la récupération de votre véhicule selon les détails fournis. Si vous avez des questions, contactez-nous.</p>"
+                + "  </main>"
+                + "  <footer style=\"background:#0b1220; color:#9ca3af; padding:18px 24px; text-align:center; font-size:12px;\">"
+                + "    <div style=\"margin-bottom:8px; color:#f3f4f6; font-weight:600;\">Aventuroo</div>"
+                + "    <div>© " + java.time.Year.now() + " Aventuroo. Tous droits réservés.</div>"
+                + "  </footer>"
+                + "</div>"
+                + "</div>";
+
+        helper.setText(htmlContent, true);
+        mailSender.send(message);
+    }
+
+    public void sendRefusalEmail(String toEmail, String clientName) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom("contact@aventuroo.vip");
+        helper.setTo(toEmail);
+        helper.setSubject("Refus de votre demande de location - Aventuroo");
+
+        String htmlContent = "<div style=\"font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#f4f5f7; padding:24px;\">"
+                + "<div style=\"max-width:680px; margin:0 auto; border-radius:12px; overflow:hidden; box-shadow:0 8px 30px rgba(15,23,42,0.08); background:#ffffff;\">"
+                + "  <header style=\"background:linear-gradient(90deg,#D4A017 0%,#C98900 100%); padding:24px; text-align:center;\">"
+                + "    <h1 style=\"margin:0; color:#fff; font-size:20px; font-weight:700; letter-spacing:0.2px;\">Aventuroo</h1>"
+                + "    <p style=\"margin:6px 0 0; color:rgba(255,255,255,0.95); font-size:13px;\">Votre prochaine aventure commence ici</p>"
+                + "  </header>"
+                + "  <main style=\"padding:28px 32px; color:#1f2937;\">"
+                + "    <div style=\"text-align:center; margin-bottom:18px;\">"
+                + "      <h2 style=\"margin:0; font-size:18px; font-weight:700;\">Demande de location refusée</h2>"
+                + "      <p style=\"margin:8px 0 0; color:#4b5563; font-size:14px;\">Bonjour " + clientName + ", nous regrettons de vous informer que votre demande de location a été refusée.</p>"
+                + "    </div>"
+                + "    <p style=\"color:#4b5563; font-size:14px; line-height:1.6;\">Pour plus d'informations, veuillez nous contacter. Nous nous excusons pour tout inconvénient.</p>"
+                + "  </main>"
+                + "  <footer style=\"background:#0b1220; color:#9ca3af; padding:18px 24px; text-align:center; font-size:12px;\">"
+                + "    <div style=\"margin-bottom:8px; color:#f3f4f6; font-weight:600;\">Aventuroo</div>"
+                + "    <div>© " + java.time.Year.now() + " Aventuroo. Tous droits réservés.</div>"
+                + "  </footer>"
+                + "</div>"
+                + "</div>";
+
+        helper.setText(htmlContent, true);
+        mailSender.send(message);
+    }
+
 
 }
