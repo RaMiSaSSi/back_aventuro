@@ -10,6 +10,7 @@
     import org.springframework.transaction.annotation.Transactional;
 
     import java.math.BigDecimal;
+    import java.time.LocalTime;
     import java.util.ArrayList;
     import java.util.List;
     import java.util.UUID;
@@ -98,9 +99,16 @@
             if (dto.getImages() != null) a.setImages(dto.getImages());
             if (dto.getVideo() != null) a.setVideo(dto.getVideo());
             if (dto.getEstActive() != null) a.setEstActive(dto.getEstActive());
-            if (dto.getHeureDebut() != null) a.setHeureDebut(dto.getHeureDebut());
-            if (dto.getHeureFin() != null) a.setHeureFin(dto.getHeureFin());
-
+            if (dto.getHeureDebut() != null) {
+                a.setHeureDebut(dto.getHeureDebut());
+            } else {
+                a.setHeureDebut(LocalTime.of(8, 0));
+            }
+            if (dto.getHeureFin() != null) {
+                a.setHeureFin(dto.getHeureFin());
+            } else {
+                a.setHeureFin(LocalTime.of(17, 0));
+            }
             // Apply promotion fields
             if (dto.getPromoActive() != null) a.setPromoActive(dto.getPromoActive());
             if (dto.getPromoPercent() != null) a.setPromoPercent(dto.getPromoPercent());
