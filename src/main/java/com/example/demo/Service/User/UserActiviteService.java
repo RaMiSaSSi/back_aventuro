@@ -9,8 +9,7 @@ import java.util.UUID;
 
 public interface UserActiviteService {
     List<ActiviteDTO> getActivites();
-    ActiviteDTO getActiviteById(UUID id);
-    List<CategorieActivite> getCategories();
+    ActiviteDTO getActiviteById(UUID id, String lang);    List<CategorieActivite> getCategories();
     List<ActiviteDTO> getActivitesByCategorie(CategorieActivite categorie);
     List<ActiviteDTO> searchActivites(String keyword);
     List<ActiviteDTO> filterActivites(String categorie,

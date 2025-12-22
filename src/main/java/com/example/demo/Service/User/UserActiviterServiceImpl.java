@@ -37,10 +37,9 @@
                                 }
 
                                 @Override
-                                public ActiviteDTO getActiviteById(UUID id) {
+                                public ActiviteDTO getActiviteById(UUID id, String lang) {
                                     Activite a = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Activité non trouvée"));
-                                    String locale = LocaleContextHolder.getLocale().getLanguage();
-                                    return toDto(a, locale);
+                                    return toDto(a, lang);
                                 }
 
                                 @Override
@@ -111,6 +110,11 @@
                                     if (original == null || original.trim().isEmpty()) return original;
                                     try {
                                         String translated = translationService.translateText(original, locale);
+                                        // Si la traduction est nulle, vide ou identique (insensible à la casse), tente la seconde API
+                                        if (translated == null || translated.trim().isEmpty() ||
+                                            translated.trim().equalsIgnoreCase(original.trim())) {
+                                            translated = translationService.translateText(original, locale, "fr");
+                                        }
                                         if (translated == null || translated.trim().isEmpty()) return original;
                                         return translated;
                                     } catch (Exception ex) {

@@ -28,9 +28,10 @@ public class UserActiviteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ActiviteDTO> get(@PathVariable UUID id) {
-        return ResponseEntity.ok(service.getActiviteById(id));
+    public ResponseEntity<ActiviteDTO> get(@PathVariable UUID id, @RequestParam(defaultValue = "fr") String lang) {
+        return ResponseEntity.ok(service.getActiviteById(id, lang));
     }
+
 
     @GetMapping("/categories")
     public ResponseEntity<List<CategorieActivite>> categories() {
