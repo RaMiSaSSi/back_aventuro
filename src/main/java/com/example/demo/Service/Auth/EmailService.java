@@ -25,7 +25,7 @@ public class EmailService {
 
         helper.setFrom("contact@aventuroo.vip");
         helper.setTo(toEmail);
-        helper.setSubject("Vérification de votre adresse e-mail - Amatun Shop");
+        helper.setSubject("Vérification de votre adresse e-mail - Aventuroo");
 
         String htmlContent = "<div style=\"font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#f4f5f7; padding:24px;\">"
                 + "<div style=\"max-width:680px; margin:0 auto; border-radius:12px; overflow:hidden; box-shadow:0 8px 30px rgba(15,23,42,0.08); background:#ffffff;\">"
@@ -73,11 +73,11 @@ public class EmailService {
 
             helper.setFrom("contact@aventuroo.vip");
             helper.setTo(toEmail);
-            helper.setSubject("Réinitialisation du mot de passe - Amatun Shop");
+            helper.setSubject("Réinitialisation du mot de passe - Aventuroo");
 
             String htmlContent = "<div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>"
                     + "<div style='background: linear-gradient(135deg, #FF6F00 0%, #FF8F00 100%); padding: 30px; text-align: center;'>"
-                    + "<h1 style='color: #ffffff; margin: 0; font-size: 28px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);'>AMATUN SHOP</h1>"
+                    + "<h1 style='color: #ffffff; margin: 0; font-size: 28px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);'>Aventuroo</h1>"
                     + "<p style='color: #ffffff; margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;'>Bienvenue dans votre expérience d'achat</p>"
                     + "</div>"
                     + "<div style='padding: 40px 30px; background-color: #ffffff;'>"
@@ -98,10 +98,10 @@ public class EmailService {
                     + "<p style='color: #555555; font-size: 16px; line-height: 1.6; text-align: center;'>Utilisez ce mot de passe pour vous connecter à votre compte.</p>"
                     + "</div>"
                     + "<div style='background-color: #333333; padding: 25px; text-align: center;'>"
-                    + "<p style='color: #ffffff; margin: 0 0 10px 0; font-size: 18px; font-weight: bold;'>AMATUN SHOP</p>"
+                    + "<p style='color: #ffffff; margin: 0 0 10px 0; font-size: 18px; font-weight: bold;'>Aventuroo</p>"
                     + "<p style='color: #cccccc; margin: 0; font-size: 14px;'>Votre destination d'achat de confiance</p>"
                     + "<div style='margin-top: 15px; padding-top: 15px; border-top: 1px solid #555555;'>"
-                    + "<p style='color: #999999; margin: 0; font-size: 12px;'>© 2025 Amatun Shop. Tous droits réservés.</p>"
+                    + "<p style='color: #999999; margin: 0; font-size: 12px;'>© 2025 Aventuroo. Tous droits réservés.</p>"
                     + "</div>"
                     + "</div>"
                     + "</div>";
