@@ -17,9 +17,14 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import org.springframework.context.MessageSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Locale;
 
 @Service
 public class TranslationService {
+    @Autowired
+    private MessageSource messageSource;
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -29,44 +34,58 @@ public class TranslationService {
             "Djerba", "Chenini", "Tataouine", "Sahara", "Prestige", "Pirate"
     ));
 
+    /**
+     * Récupère la traduction d'une clé à partir des fichiers de ressources
+     */
+    public String getTranslationByKey(String key, String lang) {
+        if (key == null || key.trim().isEmpty()) return "";
+        Locale locale = Locale.forLanguageTag(lang);
+        try {
+            String translation = messageSource.getMessage(key, null, locale);
+            return translation != null ? translation : key;
+        } catch (Exception e) {
+            // Si la clé n'existe pas, retourner la clé elle-même
+            return key;
+        }
+    }
+
     @Cacheable("translations")
     public String translateText(String text, String targetLanguage) {
         if (text == null || text.trim().isEmpty()) return text;
+        // Vérifier si le texte est une clé de traduction (ex: contient un point)
+        if (text.contains(".")) {
+            String translation = getTranslationByKey(text, targetLanguage);
+            if (translation != null && !translation.equals(text)) {
+                return translation;
+            }
+        }
 
         if (text.trim().equalsIgnoreCase("Croisière Pirate Exclusive") && targetLanguage.equalsIgnoreCase("en")) {
             System.out.println("[TranslationService] Manual translation for: " + text);
             return "Exclusive Pirate Cruise";
         }
-
         String cleanedText = cleanSourceText(text);
         String protectedText = protectNonTranslatableWords(cleanedText);
-
         try {
             String detectedSourceLang = detectLanguage(protectedText);
             if (detectedSourceLang == null) detectedSourceLang = "fr";
             String url = "https://libretranslate.de/translate";
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-
             String escapedText = escapeJsonString(protectedText);
-
             String requestBody = String.format(
                     "{\"q\":\"%s\",\"source\":\"%s\",\"target\":\"%s\"}",
                     escapedText,
                     mapLanguageCode(detectedSourceLang),
                     mapLanguageCode(targetLanguage)
             );
-
             HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
             String response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class).getBody();
-
             JsonNode jsonNode = objectMapper.readTree(response);
             String translatedText = jsonNode.get("translatedText").asText();
             String finalText = restoreNonTranslatableWords(specialCharDecoder.decodeAll(translatedText));
             finalText = postProcessTranslation(finalText);
             System.out.println("[TranslationService] LibreTranslate input: " + text + " | output: " + finalText);
-
             if (finalText.trim().equalsIgnoreCase(text.trim())) {
                 System.out.println("[TranslationService] Fallback to MyMemory API for: " + text);
                 String fallback = restoreNonTranslatableWords(translateWithMyMemory(protectedText, targetLanguage));
@@ -140,11 +159,26 @@ public class TranslationService {
                 .replace("arrêts", "stops")
                 .replace("dédiscovered", "discovery")
                 .replace("l'île", "the island")
+                .replace("l'Île", "the Island")
                 .replace("idéal", "ideal")
                 .replace("d'aventure", "of adventure")
                 .replace("découverte", "discovery")
+                .replace("Décovered", "Discover")
+                .replace("expérience", "experience")
+                .replace("agréable", "pleasant")
                 .replace("immersive", "an immersive")
-                .replace("several arrêts", "several stops");
+                .replace("several arrêts", "several stops")
+                // Suppression générale des accents français résiduels en anglais
+                .replace("é", "e")
+                .replace("è", "e")
+                .replace("ê", "e")
+                .replace("à", "a")
+                .replace("â", "a")
+                .replace("ô", "o")
+                .replace("î", "i")
+                .replace("û", "u")
+                .replace("ù", "u")
+                .replace("ç", "c");
         result = result.replaceAll("\\s+", " ").trim();
         return result;
     }
